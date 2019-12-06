@@ -9,7 +9,7 @@ class p002 {
         int y = 2;
         int z;
 
-        while (x <= 4000000) {
+        while (x <= n) {
             if (x % 2 == 0)
                 sum += x;
             z = x + y;
