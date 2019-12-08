@@ -19,7 +19,9 @@ class p006 {
      * 
      * Derived with induction:
      * The sum of squares can be calculated with the formula n(n+1)/2
+     * https://en.wikipedia.org/wiki/Triangular_number
      * The square of sums can be calculated with the formula n(n+1)(2n+1)/6
+     * https://en.wikipedia.org/wiki/Square_pyramidal_number
      * 
      * Square the sum and subtract the square from it to get your answer.
      */
