@@ -27,8 +27,8 @@ class p005 {
     }
 
     
-    //Euclid's algorithm
-    //For ints a, b, gcd(a,b) = gcd(b % a, a) for a,b > 0
+    // Euclid's algorithm
+    // For ints a, b, gcd(a,b) = gcd(b % a, a) for a,b > 0
     private static BigInteger lcm(BigInteger a, BigInteger b) {
         BigInteger gcd = a.gcd(b);
         return a.divide(gcd).multiply(b);
