@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 class p018 {
     /*
         Find the maximum total from top to bottom of the triangle below.
@@ -73,7 +71,7 @@ class p018 {
                 triangle[i][j] += Math.max(triangle[i + 1][j], triangle[i + 1][j + 1]);
             }
         }
-        
+
         return triangle[0][0];
     }
     public static void main(String[] args) {
