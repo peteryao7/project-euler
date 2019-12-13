@@ -9,6 +9,19 @@ class p026 {
 
         Find the value of d < 1000 for which 1/d contains the longest 
         recurring cycle in its decimal fraction part.
+
+        Fermat's Little Theorem:
+        FLT states that if p is a prime number, then for any integer a, then
+        a^p - a is an integer multiple of p. In other words,
+
+        a^p ≡ a (mod p)
+
+        Applying it to our problem, we c an say that 1/d has a cycle of n
+        digits if 10^n - 1 mod d = 0 for prime d. d is known as a full reptend
+        prime. What we need to find now is the first reptend prime below the limit.
+
+        To speed things up, when finding the recurrence cycle for each i, we can
+        sieve i to make sure i is actually prime first.
     */
     public static int getMaxRecurrenceCycle(int max) {
         int maxCycleIdx = 0;
