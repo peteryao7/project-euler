@@ -39,8 +39,8 @@ class p028 {
         1 + sum(i=1, s) 16*i^2 + 4*i + 4
         1 + 16 * sum(i=1, s) i^2 + 4 * sum(i=1, s) i + sum(i=1, s) 4
 
-        Substituting the summations with the following arithmetic series, which
-        can also be derived through induction:
+        Substituting the summations with the following arithmetic sequences, 
+        which can also be derived through induction:
         sum(i=1, n) i = n*(n+1)/2
         sum(i=1, n) i^2 = n*(n+1)(2n+1)/6
 
@@ -51,7 +51,7 @@ class p028 {
         (4*n^3 + 3*n^2 + 8*n - 9) / 6
         2/3 * n^3 + 1/2 * n^2 + 4/3 * n - 3/2
 
-        For more info on these arithmetic series, see:
+        For more info on these summations arithmetic sequences, see:
         https://en.wikipedia.org/wiki/Summation#Powers_and_logarithm_of_arithmetic_progressions
     */
     public static int getSumDiagSpiral(int dim) {
