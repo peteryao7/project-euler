@@ -3,7 +3,8 @@ class p025 {
      * What is the index of the first term in the Fibonacci sequence to contain 1000
      * digits?
      * 
-     * Binet's Formula: We don't actually need to compute any Fibonacci number. A
+     * Binet's Formula: 
+     * We don't actually need to compute any Fibonacci number. A
      * variation of Binet's formula will give us the n-th Fibonacci number.
      * 
      * For reference:
