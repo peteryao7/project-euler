@@ -10,7 +10,7 @@ class p036 {
      * Do as the question says. The Integer class has a handy method called toString 
      * that not only converts an integer to a string, but also lets us convert between
      * different bases. Then we can simply reverse the string and check if they are
-     * equal.
+     * equal. 
      */
     public static int sumBinaryDecimalPalindromes(int max) {
         int sum = 0;
