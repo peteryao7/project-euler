@@ -1,7 +1,7 @@
 class commonFunctions {
     /*
-        This is a list of functions compiled while solving Project Euler
-        problems that have come up repeatedly.
+        This is a list of functions I have compiled while solving Project Euler
+        problems that I have needed repeatedly.
     */
 
     // checks if an integer is prime
@@ -57,5 +57,16 @@ class commonFunctions {
         String s = Integer.toString(n);
         String sb = new StringBuilder(s).reverse().toString();
         return s.equals(sb);
+    }
+
+    // returns the largest non-negative integer dividing both m and n
+    public static int gcd(int m, int n) {
+        while (n != 0) {
+            int a = m % n;
+            m = n;
+            n = a;
+        }
+
+        return m;
     }
 }
