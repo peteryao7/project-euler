@@ -11,7 +11,7 @@ class p037 {
      * Note: 2, 3, 5, and 7 are not considered to be truncatable primes.
      * 
      * Do as the question says. Because single digit primes aren't truncatable, start
-     * at 10. 
+     * at 10. Stop looping when you get to the 11th prime and return the sum.
      */
     public static int sumTruncatablePrimes() {
         int sum = 0;
