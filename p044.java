@@ -14,7 +14,7 @@ class p044 {
      * 
      * -----
      * 
-     * We essentially want the first pair of pentagonal numbers that satisfy
+     * We essentially want the first pair of pentagonal numbers that satisfies
      * every condition listed in the problem. That way, we can guarantee their
      * difference is minimized.
      * 
