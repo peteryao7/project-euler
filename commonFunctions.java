@@ -1,3 +1,5 @@
+import java.util.*;
+
 class commonFunctions {
     /*
         This is a list of functions I have compiled while solving Project Euler
@@ -21,6 +23,42 @@ class commonFunctions {
         }
 
         return true;
+    }
+
+    // returns an array of prime numbers up to n
+    private static ArrayList<Integer> listAllPrimes(int n) {
+        boolean[] isPrime = indexPrimes(n);
+        ArrayList<Integer> res = new ArrayList<Integer>();
+
+        for (int i = 0; i < isPrime.length; i++) {
+            if (isPrime[i])
+                res.add(i);
+        }
+
+        return res;
+    }
+
+    // returns a boolean array whose indices are prime numbers
+    // true = index is a prime number
+    // false = index is not a prime number
+    private static boolean[] indexPrimes(int n) {
+        boolean[] res = new boolean[n + 1];
+        if (n >= 2)
+            res[2] = true;
+        for (int i = 3; i <= n; i += 2)
+            res[i] = true;
+
+        // sieve
+        int sqrt = (int) Math.sqrt(n);
+
+        for (int i = 3; i <= sqrt; i += 2) {
+            if (res[i]) {
+                for (int j = i * i; j <= n; j += 2 * i)
+                    res[j] = false;
+            }
+        }
+
+        return res;
     }
 
     // Sieve of Eratosthenes
