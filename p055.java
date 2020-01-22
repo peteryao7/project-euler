@@ -35,6 +35,9 @@ class p055 {
      * Do as the question says. For each natural number below 10000, reverse
      * the current integer and add it to itself at most 50 times, and check
      * if the numbers are palindromes by converting them to strings.
+     * 
+     * The numbers get exponentially large with each interation, so use a
+     * BigInteger to store the accumulating sums.
      */
     public static int numLychrels(int max) {
         int count = 0;
