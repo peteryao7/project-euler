@@ -107,4 +107,23 @@ class commonFunctions {
 
         return m;
     }
+
+    // returns true if a and b share the same digits, false otherwise
+    private static boolean hasSameDigits(int a, int b) {
+        int[] digits = new int[10];
+
+        while (a > 0 && b > 0) {
+            digits[a % 10]++;
+            digits[b % 10]--;
+            a /= 10;
+            b /= 10;
+        }
+
+        for (int i : digits) {
+            if (i != 0)
+                return false;
+        }
+
+        return true;
+    }
 }
