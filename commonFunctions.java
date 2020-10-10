@@ -8,16 +8,10 @@ class commonFunctions {
 
     // checks if an integer is prime
     private static boolean isPrime(int n) {
-        if (n == 0 || n == 1)
-            return false;
-        if (n == 2)
-            return true;
-        if (n % 2 == 0)
-            return false;
-        
-        int sqrt = (int) Math.sqrt(n);
+        if (n < 2 || n % 2 == 0)
+            return n == 2;
 
-        for (int i = 3; i <= sqrt; i++) {
+        for (int i = 3; i * i <= n; i += 2) {
             if (n % i == 0)
                 return false;
         }
