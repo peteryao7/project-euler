@@ -22,6 +22,12 @@ public class p073 {
         positive rational numbers in reduced actions (m + m')/(n + n') between
         two adjacent fractions m/n and m'/n'. Set the limit of the denominator
         to be 12000 and count each valid fraction between 1/3 and 1/2.
+
+        The tree uses the concept of Farey sequences and retrieves the next
+        term in the same way. To read more:
+
+        https://mathworld.wolfram.com/Stern-BrocotTree.html
+        https://en.wikipedia.org/wiki/Farey_sequence#Next_term
     */
     public static int sternBrocotCount(int lNum, int lDen, int rNum, int rDen, int d) {
         int num = lNum + rNum;
