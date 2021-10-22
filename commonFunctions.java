@@ -78,6 +78,36 @@ class commonFunctions {
         return allPrimes;
     }
 
+    // uses sieve() to generate list of prime integers
+    private static List<Integer> sieveValues(int max) {
+        int[] allPrimes = new int[max + 1];
+        allPrimes[0] = 1;
+        allPrimes[1] = 1;
+        int bound = (int) Math.floor(Math.sqrt(max));
+
+        for (int i = 4; i <= max; i += 2) {
+            allPrimes[i] = 1;
+        }
+
+        for (int i = 3; i <= bound; i += 2) {
+            if (allPrimes[i] == 0) {
+                for (int j = i * i; j <= max; j += 2 * i) {
+                    allPrimes[j] = 1;
+                }
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = 2; i < allPrimes.length; i++) {
+            if (allPrimes[i] == 0) {
+                res.add(i);
+            }
+        }
+
+        return res;
+    }
+
     // tests if a string is a palindrome
     public static boolean isPalindrome(String s) {
         String sb = new StringBuilder(s).reverse().toString();
