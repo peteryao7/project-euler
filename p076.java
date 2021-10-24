@@ -2,6 +2,8 @@ import java.util.*;
 
 class p076 {
     /*
+        https://projecteuler.net/problem=76
+
         It is possible to write five as a sum in exactly six different ways:
 
         4 + 1
