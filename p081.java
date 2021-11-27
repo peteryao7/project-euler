@@ -22,43 +22,77 @@ class p081 {
 
         -----
 
-        Top-down DP:
+        DP:
         This problem is similar to Q18, which uses a triangle structure and
-        looks to find the maximum total. We don't know which path we should
-        take at the beginning because we need to know what the minimum sum of
-        taking either path is first, so we must start from the southeast corner
-        of the array and calculate the min sum path there. Simply take the 
-        smaller of the value to the top and to the left of the current cell,
-        and if you're in the rightmost column and bottommost row, then there's
-        only one value to add from, from the top and left respectively.
+        looks to find the maximum total. We can use either top-down or
+        bottom-up DP as both will help us solve the subproblem of which path
+        to take next. Simply take the smaller value of the two options in the
+        next step of the path and add it to the current cell.
 
         TC/SC - O(n^2)/O(1) for n = grid.length. To avoid mutating the grid,
         we can perform a deep copy of it first.
     */
 
     // top-down DP
-    public static int pathSum(int[][] grid) {
+    public static int topDownPathSum(int[][] grid) {
         int n = grid.length;
+        int[][] dp = clone(grid);
 
         for (int i = n - 1; i >= 0; i--) {
             for (int j = n - 1; j >= 0; j--) {
                 if (i < n - 1 && j < n - 1) {
-                    grid[i][j] += Math.min(grid[i + 1][j], grid[i][j + 1]);
+                    dp[i][j] += Math.min(dp[i + 1][j], dp[i][j + 1]);
                 }
                 else if (i < n - 1) {
-                    grid[i][j] += grid[i + 1][j];
+                    dp[i][j] += dp[i + 1][j];
                 }
                 else if (j < n - 1) {
-                    grid[i][j] += grid[i][j + 1];
+                    dp[i][j] += dp[i][j + 1];
                 }
             }
         }
         
-        return grid[0][0];
+        return dp[0][0];
+    }
+
+    // bottom-up DP
+    public static int bottomUpPathSum(int[][] grid) {
+        int n = grid.length;
+        int[][] dp = clone(grid);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i > 0 && j > 0) {
+                    dp[i][j] += Math.min(dp[i - 1][j], dp[i][j - 1]);
+                }
+                else if (i > 0) {
+                    dp[i][j] += dp[i - 1][j];
+                }
+                else if (j > 0) {
+                    dp[i][j] += dp[i][j - 1];
+                }
+            }
+        }
+
+        return dp[n - 1][n - 1];
+    }
+
+    public static int[][] clone(int[][] grid) {
+        int n = grid.length;
+
+        int[][] dp = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = grid[i][j];
+            }
+        }
+
+        return dp;
     }
 
     public static void main(String[] args) {
-        System.out.println(pathSum(grid));
+        System.out.println(topDownPathSum(grid));
+        System.out.println(bottomUpPathSum(grid));
     }
 
     private static int[][] grid = {
