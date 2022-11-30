@@ -1,70 +1,128 @@
-class p082 {
-	/*
-	 * https://projecteuler.net/problem=82
-	 * 
-	 * NOTE: This problem is a more challenging version of Problem 81.
-	 * 
-	 * The minimal path sum in the 5 by 5 matrix below, by starting in any cell in
-	 * the left column and finishing in any cell in the right column, and only
-	 * moving up, down, and right, is indicated in red and bold; the sum is equal to
-	 * 994.
-	 * 
-	 * [
+import java.util.*;
+
+class p083 {
+    /*
+     * https://projecteuler.net/problem=83
+     * 
+     * NOTE: This problem is a significantly more challenging version of Problem 81.
+     * 
+     * In the 5 by 5 matrix below, the minimal path sum from the top left to the
+     * bottom right, by moving left, right, up, and down, is indicated in bold red
+     * and is equal to 2297.
+     * 
+     * [
 	 *     [131 673 234 103 18 ],
 	 *     [201 96  342 965 150],
 	 *     [630 803 746 422 111],
 	 *     [537 699 497 121 956],
 	 *     [805 732 524 37  331]
 	 * ]
-	 * 
-	 * Find the minimal path sum from the left column to the right column in
-	 * matrix.txt (right click and "Save Link/Target As..."), a 31K text file
-	 * containing an 80 by 80 matrix.
-	 * 
-	 * -----
-	 * 
-	 * DP:
-	 * This question is similar to Q81, but we can move up as well and have
-	 * different start/end positions. Since we can't move left, we can still
-	 * perform DP to find the minimum sum needed to go to the next column.
-	 * 
-	 * In the code, we make two sweeps: one to check if it's cheaper to go
-	 * up and right, or just right, and one to check if it's cheaper to go down
-	 * compared to the better result from the first sweep.
-	 * 
-	 * TC/SC - O(n^2)/O(n^2) for n = grid.length
-	 */
-    public static int pathSum3Ways(int[][] grid) {
+     * 
+     * Find the minimal path sum from the top left to the bottom right by moving
+     * left, right, up, and down in matrix.txt (right click and
+     * "Save Link/Target As..."), a 31K text file containing an 80 by 80 matrix.
+     * 
+     * -----
+     * 
+     * Bellman-Ford:
+     * You can use any graph traversal algorithm to solve this, but DFS and BFS
+     * may not be efficient enough or use too much memory. Instead, we can
+     * treat the grid as a directed graph and use some more sophisticated
+     * algorithms like A* or Dijkstra. Since I'm not sure if negative values
+     * exist in the grid, I opted to use Bellman-Ford.
+     * 
+     * Setting initial values to Integer.MAX_VALUE / 3 is to prevent an
+     * int overflow bug from adding two values.
+     * 
+     * TC/SC - O(|V|*|E|)/O(|V|)
+     */
+    public static int pathSum4WaysBellmanFord(int[][] grid) {
+        int n = grid.length;
+        int[][] bf = new int[n][n];
+        // start of BF has all best values at infinity
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                bf[i][j] = Integer.MAX_VALUE / 3;
+            }
+        }
+
+        bf[0][0] = grid[0][0];
+
+        // for V vertices, worst case of BF requires V - 1 passes
+        for (int k = 0; k < n * n; k++) {
+            // find min sum path to each cell for the current iteration
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    int temp = Integer.MAX_VALUE / 3;
+                    // get min path from shortest path seen so far
+                    if (i - 1 >= 0)
+                        temp = Math.min(temp, bf[i - 1][j]);
+                    if (i + 1 < n)
+                        temp = Math.min(temp, bf[i + 1][j]);
+                    if (j - 1 >= 0)
+                        temp = Math.min(temp, bf[i][j - 1]);
+                    if (j + 1 < n)
+                        temp = Math.min(temp, bf[i][j + 1]);
+                    
+                    bf[i][j] = Math.min(grid[i][j] + temp, bf[i][j]);
+                }
+            }
+        }
+
+        return bf[n - 1][n - 1];
+    }
+
+    // TLE
+    public static int pathSum4WaysBFS(int[][] grid) {
 		int n = grid.length;
-		int[][] dp = new int[n][n];
-		int[] res = new int[n];
-		for (int i = 0; i < n; i++) {
-			res[i] = grid[i][n - 1];
-		}
+        int res = Integer.MAX_VALUE;
+        Queue<Cell> q = new LinkedList<>();
 
-		for (int j = n - 2; j >= 0; j--) {
-			res[0] += grid[0][j];
+        boolean[][] initialVisited = new boolean[n][n];
+        initialVisited[0][0] = true;
+        q.offer(new Cell(0, 0, grid[0][0], initialVisited));
 
-			for (int i = 1; i < n; i++) {
-				res[i] = grid[i][j] + Math.min(res[i], res[i - 1]);
-			}
+        while (!q.isEmpty()) {
+            Cell cur = q.poll();
+            int x = cur.getX(), y = cur.getY(), sum = cur.getSum();
+            boolean[][] visited = cur.getVisited();
 
-			for (int i = n - 2; i >= 0; i--) {
-				res[i] = Math.min(res[i + 1] + grid[i][j], res[i]);
-			}
-		}
+            if (x == n - 1 && y == n - 1) {
+                res = Math.min(res, sum);
+                continue;
+            }
 
-		int min = Integer.MAX_VALUE;
+            // up
+            if (x - 1 >= 0 && !visited[x - 1][y]) {
+                visited[x - 1][y] = true;
+                q.offer(new Cell(x - 1, y, sum + grid[x - 1][y], visited));
+                visited[x - 1][y] = false;
+            }
+            // left
+            if (y - 1 >= 0 && !visited[x][y - 1]) {
+                visited[x][y - 1] = true;
+                q.offer(new Cell(x, y - 1, sum + grid[x][y - 1], visited));
+                visited[x][y - 1] = false;
+            }
+            // down
+            if (x + 1 < n && !visited[x + 1][y]) {
+                visited[x + 1][y] = true;
+                q.offer(new Cell(x + 1, y, sum + grid[x + 1][y], visited));
+                visited[x + 1][y] = false;
+            }
+            // right
+            if (y + 1 < n && !visited[x][y + 1]) {
+                visited[x][y + 1] = true;
+                q.offer(new Cell(x, y + 1, sum + grid[x][y + 1], visited));
+                visited[x][y + 1] = false;
+            }
+        }
 
-		for (int resVal : res) {
-			min = Math.min(min, resVal);
-		}
-
-		return min;
+        return res;
     }
 
     public static void main(String[] args) {
-        System.out.println(pathSum3Ways(grid));
+        System.out.println(pathSum4WaysBellmanFord(grid));
     }
 
     private static int[][] grid = {
@@ -149,4 +207,32 @@ class p082 {
 		{2132,8992,8160,5782,4420,3371,3798,5054,552,5631,7546,4716,1332,6486,7892,7441,4370,6231,4579,2121,8615,1145,9391,1524,1385,2400,9437,2454,7896,7467,2928,8400,3299,4025,7458,4703,7206,6358,792,6200,725,4275,4136,7390,5984,4502,7929,5085,8176,4600,119,3568,76,9363,6943,2248,9077,9731,6213,5817,6729,4190,3092,6910,759,2682,8380,1254,9604,3011,9291,5329,9453,9746,2739,6522,3765,5634,1113,5789},
 		{5304,5499,564,2801,679,2653,1783,3608,7359,7797,3284,796,3222,437,7185,6135,8571,2778,7488,5746,678,6140,861,7750,803,9859,9918,2425,3734,2698,9005,4864,9818,6743,2475,132,9486,3825,5472,919,292,4411,7213,7699,6435,9019,6769,1388,802,2124,1345,8493,9487,8558,7061,8777,8833,2427,2238,5409,4957,8503,3171,7622,5779,6145,2417,5873,5563,5693,9574,9491,1937,7384,4563,6842,5432,2751,3406,7981},
 	};
+}
+
+class Cell {
+    int x, y, sum;
+    boolean[][] visited;
+
+    public Cell(int _x, int _y, int _sum, boolean[][] _visited) {
+        x = _x;
+        y = _y;
+        sum = _sum;
+        visited = _visited;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public boolean[][] getVisited() {
+        return visited;
+    }
 }
